@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portal</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.95) !important;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: #667eea !important;
+            font-size: 1.5rem;
+        }
+
+        .navbar-brand img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+        }
+
+        .nav-link {
+            color: #495057 !important;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #667eea !important;
+        }
+
+        .main-content {
+            padding: 40px 0;
+        }
+
+        .page-title {
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            margin-bottom: 10px;
+        }
+
+        .page-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        .student-card {
+            border: none;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            background: #fff;
+            height: 100%;
+        }
+
+        .student-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-img-wrapper {
+            height: 280px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .student-card:hover .card-img-top {
+            transform: scale(1.1);
+        }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        .card-title {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-size: 1.3rem;
+        }
+
+        .card-text {
+            color: #6c757d;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .student-info {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .student-info li {
+            padding: 8px 0;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .student-info li i {
+            width: 20px;
+            margin-right: 10px;
+        }
+
+        .student-info strong {
+            color: #495057;
+            margin-left: 5px;
+        }
+
+        .card-footer {
+            background: #fff;
+            border-top: 1px solid #e9ecef;
+            padding: 20px 25px;
+        }
+
+        .btn-group-custom {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-custom {
+            flex: 1;
+            min-width: 100px;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-view {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+        }
+
+        .btn-contact {
+            background: #fff;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-contact:hover {
+            background: #667eea;
+            color: #fff;
+        }
+
+        .btn-edit {
+            background: #2c3e50;
+            color: #fff;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.8) !important;
+            backdrop-filter: blur(10px);
+            margin-top: 50px;
+            padding: 20px 0;
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0;
+        }
+
+        .modal-content {
+            border-radius: 20px;
+            border: none;
+        }
+
+        .modal-header {
+            border-radius: 20px 20px 0 0;
+        }
+
+        .form-control, .form-select {
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            padding: 12px 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+        }
+
+        #contact {
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .card-img-wrapper {
+                height: 220px;
+            }
+
+            .btn-group-custom {
+                flex-direction: column;
+            }
+
+            .btn-custom {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main-content {
+                padding: 20px 15px;
+            }
+
+            .card-body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="favicon.png" alt="Logo" width="30" height="30" class="me-2">
+                Student Portal
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home"><i class="fas fa-home me-1"></i>Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#students"><i class="fas fa-users me-1"></i>Students</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact"><i class="fas fa-envelope me-1"></i>Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content" style="margin-top: 80px;">
+        <div class="text-center">
+            <h1 class="page-title">Student Profiles</h1>
+            <p class="page-subtitle">Meet our outstanding students and their achievements.</p>
+        </div>
+
+        <div class="row g-4" id="students">
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card student-card h-100">
+                    <div class="card-img-wrapper">
+                        <img src="Alice Johnson.png" class="card-img-top" alt="Alice Johnson">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Alice Johnson</h5>
+                        <p class="card-text">Computer Science major with a passion for AI and machine learning. Currently researching neural networks and deep learning applications.</p>
+                        <ul class="student-info">
+                            <li><i class="fas fa-id-card text-primary"></i><strong>Student ID:</strong> 2024001</li>
+                            <li><i class="fas fa-book text-success"></i><strong>Major:</strong> Computer Science</li>
+                            <li><i class="fas fa-chart-line text-warning"></i><strong>GPA:</strong> 3.9</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group-custom">
+                            <button class="btn btn-custom btn-view" data-bs-toggle="modal" data-bs-target="#aliceModal">
+                                <i class="fas fa-eye me-1"></i>View Profile
+                            </button>
+                            <button class="btn btn-custom btn-contact" onclick="contactStudent('Alice Johnson')">
+                                <i class="fas fa-envelope me-1"></i>Contact
+                            </button>
+                            <button class="btn btn-custom btn-edit" onclick="editStudent('Alice Johnson')">
+                                <i class="fas fa-edit me-1"></i>Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card student-card h-100">
+                    <div class="card-img-wrapper">
+                        <img src="Bob Smith.png" class="card-img-top" alt="Bob Smith">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Bob Smith</h5>
+                        <p class="card-text">Mathematics enthusiast and competitive programmer. Winner of multiple coding competitions and hackathons.</p>
+                        <ul class="student-info">
+                            <li><i class="fas fa-id-card text-primary"></i><strong>Student ID:</strong> 2024002</li>
+                            <li><i class="fas fa-book text-success"></i><strong>Major:</strong> Mathematics</li>
+                            <li><i class="fas fa-chart-line text-warning"></i><strong>GPA:</strong> 3.8</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group-custom">
+                            <button class="btn btn-custom btn-view" data-bs-toggle="modal" data-bs-target="#bobModal">
+                                <i class="fas fa-eye me-1"></i>View Profile
+                            </button>
+                            <button class="btn btn-custom btn-contact" onclick="contactStudent('Bob Smith')">
+                                <i class="fas fa-envelope me-1"></i>Contact
+                            </button>
+                            <button class="btn btn-custom btn-edit" onclick="editStudent('Bob Smith')">
+                                <i class="fas fa-edit me-1"></i>Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card student-card h-100">
+                    <div class="card-img-wrapper">
+                        <img src="Carol Williams.png" class="card-img-top" alt="Carol Williams">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Carol Williams</h5>
+                        <p class="card-text">Physics major focused on quantum computing. Published researcher in peer-reviewed journals and conferences.</p>
+                        <ul class="student-info">
+                            <li><i class="fas fa-id-card text-primary"></i><strong>Student ID:</strong> 2024003</li>
+                            <li><i class="fas fa-book text-success"></i><strong>Major:</strong> Physics</li>
+                            <li><i class="fas fa-chart-line text-warning"></i><strong>GPA:</strong> 4.0</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group-custom">
+                            <button class="btn btn-custom btn-view" data-bs-toggle="modal" data-bs-target="#carolModal">
+                                <i class="fas fa-eye me-1"></i>View Profile
+                            </button>
+                            <button class="btn btn-custom btn-contact" onclick="contactStudent('Carol Williams')">
+                                <i class="fas fa-envelope me-1"></i>Contact
+                            </button>
+                            <button class="btn btn-custom btn-edit" onclick="editStudent('Carol Williams')">
+                                <i class="fas fa-edit me-1"></i>Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card student-card h-100">
+                    <div class="card-img-wrapper">
+                        <img src="David Brown.png" class="card-img-top" alt="David Brown">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">David Brown</h5>
+                        <p class="card-text">Engineering student specializing in robotics. Leads the university robotics club and participates in international competitions.</p>
+                        <ul class="student-info">
+                            <li><i class="fas fa-id-card text-primary"></i><strong>Student ID:</strong> 2024004</li>
+                            <li><i class="fas fa-book text-success"></i><strong>Major:</strong> Engineering</li>
+                            <li><i class="fas fa-chart-line text-warning"></i><strong>GPA:</strong> 3.7</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group-custom">
+                            <button class="btn btn-custom btn-view" data-bs-toggle="modal" data-bs-target="#davidModal">
+                                <i class="fas fa-eye me-1"></i>View Profile
+                            </button>
+                            <button class="btn btn-custom btn-contact" onclick="contactStudent('David Brown')">
+                                <i class="fas fa-envelope me-1"></i>Contact
+                            </button>
+                            <button class="btn btn-custom btn-edit" onclick="editStudent('David Brown')">
+                                <i class="fas fa-edit me-1"></i>Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card student-card h-100">
+                    <div class="card-img-wrapper">
+                        <img src="Emma Davis.png" class="card-img-top" alt="Emma Davis">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Emma Davis</h5>
+                        <p class="card-text">Biology major with a focus on genetics. Active member of the student research association and lab assistant.</p>
+                        <ul class="student-info">
+                            <li><i class="fas fa-id-card text-primary"></i><strong>Student ID:</strong> 2024005</li>
+                            <li><i class="fas fa-book text-success"></i><strong>Major:</strong> Biology</li>
+                            <li><i class="fas fa-chart-line text-warning"></i><strong>GPA:</strong> 3.85</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group-custom">
+                            <button class="btn btn-custom btn-view" data-bs-toggle="modal" data-bs-target="#emmaModal">
+                                <i class="fas fa-eye me-1"></i>View Profile
+                            </button>
+                            <button class="btn btn-custom btn-contact" onclick="contactStudent('Emma Davis')">
+                                <i class="fas fa-envelope me-1"></i>Contact
+                            </button>
+                            <button class="btn btn-custom btn-edit" onclick="editStudent('Emma Davis')">
+                                <i class="fas fa-edit me-1"></i>Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card student-card h-100">
+                    <div class="card-img-wrapper">
+                        <img src="Frank Miller.png" class="card-img-top" alt="Frank Miller">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Frank Miller</h5>
+                        <p class="card-text">Economics student with strong analytical skills. Intern at a leading financial institution and investment club president.</p>
+                        <ul class="student-info">
+                            <li><i class="fas fa-id-card text-primary"></i><strong>Student ID:</strong> 2024006</li>
+                            <li><i class="fas fa-book text-success"></i><strong>Major:</strong> Economics</li>
+                            <li><i class="fas fa-chart-line text-warning"></i><strong>GPA:</strong> 3.75</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <div class="btn-group-custom">
+                            <button class="btn btn-custom btn-view" data-bs-toggle="modal" data-bs-target="#frankModal">
+                                <i class="fas fa-eye me-1"></i>View Profile
+                            </button>
+                            <button class="btn btn-custom btn-contact" onclick="contactStudent('Frank Miller')">
+                                <i class="fas fa-envelope me-1"></i>Contact
+                            </button>
+                            <button class="btn btn-custom btn-edit" onclick="editStudent('Frank Miller')">
+                                <i class="fas fa-edit me-1"></i>Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="contact" class="container main-content">
+        <div class="text-center mb-5">
+            <h2 class="page-title" style="color: #2c3e50; text-shadow: none;">Contact Us</h2>
+            <p class="page-subtitle" style="color: #6c757d;">Have questions? Reach out to us directly.</p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-lg" style="border-radius: 20px;">
+                    <div class="card-body p-5">
+                        <form id="contactForm">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="contactName" class="form-label">Your Name</label>
+                                    <input type="text" class="form-control" id="contactName" placeholder="Enter your name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="contactEmail" class="form-label">Your Email</label>
+                                    <input type="email" class="form-control" id="contactEmail" placeholder="Enter your email" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="contactStudent" class="form-label">Student (Optional)</label>
+                                    <select class="form-select" id="contactStudent">
+                                        <option value="">General Inquiry</option>
+                                        <option value="Alice Johnson">Alice Johnson</option>
+                                        <option value="Bob Smith">Bob Smith</option>
+                                        <option value="Carol Williams">Carol Williams</option>
+                                        <option value="David Brown">David Brown</option>
+                                        <option value="Emma Davis">Emma Davis</option>
+                                        <option value="Frank Miller">Frank Miller</option>
+                                    </select>
+                                </div>
+                                <div class="col-12">
+                                    <label for="contactMessage" class="form-label">Message</label>
+                                    <textarea class="form-control" id="contactMessage" rows="5" placeholder="Write your message here..." required></textarea>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-custom btn-view px-5 py-2">
+                                        <i class="fas fa-paper-plane me-2"></i>Send Message
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="text-white text-center">
+        <div class="container">
+            <p class="mb-0">&copy; 2026 Student Portal. All rights reserved. | Designed with <i class="fas fa-heart text-danger"></i></p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function contactStudent(name) {
+            const contactSection = document.getElementById('contact');
+            const studentSelect = document.getElementById('contactStudent');
+            const messageField = document.getElementById('contactMessage');
+
+            studentSelect.value = name;
+            messageField.value = `Hello, I am interested in contacting ${name}.`;
+
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function editStudent(name) {
+            alert('Edit Profile: ' + name + '\n\nThis would open an edit form with the student\'s current information.');
+        }
+
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const student = document.getElementById('contactStudent').value;
+            const message = document.getElementById('contactMessage').value;
+
+            if (student) {
+                alert('Message sent to ' + student + '!\n\nWe will get back to you soon.');
+            } else {
+                alert('Message sent!\n\nThank you ' + name + ', we will get back to you soon.');
+            }
+
+            this.reset();
+        });
+    </script>
+
+    <div class="modal fade" id="aliceModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="fas fa-user-circle me-2"></i>Alice Johnson - Full Profile</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="Alice Johnson.png" class="rounded-circle mb-3" width="150" alt="Alice">
+                    <h4>Alice Johnson</h4>
+                    <p class="text-muted">Computer Science Major</p>
+                    <hr>
+                    <div class="row text-start mt-3">
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-id-card me-2 text-primary"></i>Student ID:</strong></div>
+                        <div class="col-md-6 mb-2">2024001</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-book me-2 text-success"></i>Major:</strong></div>
+                        <div class="col-md-6 mb-2">Computer Science</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-chart-line me-2 text-warning"></i>GPA:</strong></div>
+                        <div class="col-md-6 mb-2">3.9</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-calendar me-2 text-info"></i>Year:</strong></div>
+                        <div class="col-md-6 mb-2">Junior</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-envelope me-2 text-danger"></i>Email:</strong></div>
+                        <div class="col-md-6 mb-2">alice.johnson@university.edu</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="bobModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title"><i class="fas fa-user-circle me-2"></i>Bob Smith - Full Profile</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="Bob Smith.png" class="rounded-circle mb-3" width="150" alt="Bob">
+                    <h4>Bob Smith</h4>
+                    <p class="text-muted">Mathematics Major</p>
+                    <hr>
+                    <div class="row text-start mt-3">
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-id-card me-2 text-primary"></i>Student ID:</strong></div>
+                        <div class="col-md-6 mb-2">2024002</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-book me-2 text-success"></i>Major:</strong></div>
+                        <div class="col-md-6 mb-2">Mathematics</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-chart-line me-2 text-warning"></i>GPA:</strong></div>
+                        <div class="col-md-6 mb-2">3.8</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-calendar me-2 text-info"></i>Year:</strong></div>
+                        <div class="col-md-6 mb-2">Senior</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-envelope me-2 text-danger"></i>Email:</strong></div>
+                        <div class="col-md-6 mb-2">bob.smith@university.edu</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="carolModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title"><i class="fas fa-user-circle me-2"></i>Carol Williams - Full Profile</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="Carol Williams.png" class="rounded-circle mb-3" width="150" alt="Carol">
+                    <h4>Carol Williams</h4>
+                    <p class="text-muted">Physics Major</p>
+                    <hr>
+                    <div class="row text-start mt-3">
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-id-card me-2 text-primary"></i>Student ID:</strong></div>
+                        <div class="col-md-6 mb-2">2024003</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-book me-2 text-success"></i>Major:</strong></div>
+                        <div class="col-md-6 mb-2">Physics</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-chart-line me-2 text-warning"></i>GPA:</strong></div>
+                        <div class="col-md-6 mb-2">4.0</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-calendar me-2 text-info"></i>Year:</strong></div>
+                        <div class="col-md-6 mb-2">Senior</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-envelope me-2 text-danger"></i>Email:</strong></div>
+                        <div class="col-md-6 mb-2">carol.williams@university.edu</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="davidModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title"><i class="fas fa-user-circle me-2"></i>David Brown - Full Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="David Brown.png" class="rounded-circle mb-3" width="150" alt="David">
+                    <h4>David Brown</h4>
+                    <p class="text-muted">Engineering Major</p>
+                    <hr>
+                    <div class="row text-start mt-3">
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-id-card me-2 text-primary"></i>Student ID:</strong></div>
+                        <div class="col-md-6 mb-2">2024004</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-book me-2 text-success"></i>Major:</strong></div>
+                        <div class="col-md-6 mb-2">Engineering</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-chart-line me-2 text-warning"></i>GPA:</strong></div>
+                        <div class="col-md-6 mb-2">3.7</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-calendar me-2 text-info"></i>Year:</strong></div>
+                        <div class="col-md-6 mb-2">Junior</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-envelope me-2 text-danger"></i>Email:</strong></div>
+                        <div class="col-md-6 mb-2">david.brown@university.edu</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="emmaModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title"><i class="fas fa-user-circle me-2"></i>Emma Davis - Full Profile</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="Emma Davis.png" class="rounded-circle mb-3" width="150" alt="Emma">
+                    <h4>Emma Davis</h4>
+                    <p class="text-muted">Biology Major</p>
+                    <hr>
+                    <div class="row text-start mt-3">
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-id-card me-2 text-primary"></i>Student ID:</strong></div>
+                        <div class="col-md-6 mb-2">2024005</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-book me-2 text-success"></i>Major:</strong></div>
+                        <div class="col-md-6 mb-2">Biology</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-chart-line me-2 text-warning"></i>GPA:</strong></div>
+                        <div class="col-md-6 mb-2">3.85</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-calendar me-2 text-info"></i>Year:</strong></div>
+                        <div class="col-md-6 mb-2">Sophomore</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-envelope me-2 text-danger"></i>Email:</strong></div>
+                        <div class="col-md-6 mb-2">emma.davis@university.edu</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="frankModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header text-white" style="background-color: #6f42c1;">
+                    <h5 class="modal-title"><i class="fas fa-user-circle me-2"></i>Frank Miller - Full Profile</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="Frank Miller.png" class="rounded-circle mb-3" width="150" alt="Frank">
+                    <h4>Frank Miller</h4>
+                    <p class="text-muted">Economics Major</p>
+                    <hr>
+                    <div class="row text-start mt-3">
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-id-card me-2 text-primary"></i>Student ID:</strong></div>
+                        <div class="col-md-6 mb-2">2024006</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-book me-2 text-success"></i>Major:</strong></div>
+                        <div class="col-md-6 mb-2">Economics</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-chart-line me-2 text-warning"></i>GPA:</strong></div>
+                        <div class="col-md-6 mb-2">3.75</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-calendar me-2 text-info"></i>Year:</strong></div>
+                        <div class="col-md-6 mb-2">Senior</div>
+                        <div class="col-md-6 mb-2"><strong><i class="fas fa-envelope me-2 text-danger"></i>Email:</strong></div>
+                        <div class="col-md-6 mb-2">frank.miller@university.edu</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
